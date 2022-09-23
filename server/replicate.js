@@ -139,7 +139,7 @@ class DefaultFetchHTTPClient {
   // This class uses fetch, which is still experimental in Node 18, so we import a polyfill for Node if fetch is not defined
   async importFetch() {
     if (isNode && !globalThis.fetch)
-      globalThis.fetch = (await import("node-fetch"))["default"];
+      globalThis.fetch = (await import("cross-fetch"))["default"];
   }
 
   async get({ url }) {
