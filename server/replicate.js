@@ -1,6 +1,8 @@
 const BASE_URL = "https://api.replicate.com/v1";
 const DEFAULT_POLLING_INTERVAL = 5000;
 
+const nf = require("cross-fetch");
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms));
 const isNode =
   typeof process !== "undefined" &&
