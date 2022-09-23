@@ -142,7 +142,7 @@ class DefaultFetchHTTPClient {
   async importFetch() {
     if (isNode && !globalThis.fetch)
       globalThis.fetch = (await import("cross-fetch"))["default"];
-  }
+  } //working?
 
   async get({ url }) {
     await this.importFetch();
