@@ -4,7 +4,7 @@ require("dotenv").config();
 module.exports = async (prompt) => {
   prompt =
     prompt +
-    "realistic, cinematic lighting, highly detailed, intricate, shiny, digital painting, artstation, concept art, smooth, sharp focus, illustration, art by artgerm and greg rutkowski";
+    ". realistic, cinematic lighting, highly detailed, intricate, shiny, digital painting, artstation, concept art, smooth, sharp focus, illustration, art by artgerm and greg rutkowski";
 
   const replicate = new Replicate();
   const model = await replicate.models.get("stability-ai/stable-diffusion");
