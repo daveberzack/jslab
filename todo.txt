@@ -1,0 +1,10 @@
+style login screen (with form and screen link)
+get form working: create player and get index back, then redirect
+
+update db as players sign in
+show scores for players, with name
+fix score
+style images to fit on screen
+
+
+later: add caption after image generated

@@ -125,46 +125,49 @@ table {
 
 body {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  background: #cccccc;
+  background: #333333;
+  color: #ffffff;
 }
 
 h2 {
-  margin: 20px 0px;
-  font-size: 30px;
+  margin: 10px 0px;
+  font-size: 35px;
   text-align: center;
   font-weight: bold;
+  color: #999999;
 }
 
 input {
   display: inline-block;
   margin: 20px 0px;
-  border: 5px solid black;
+  background: #999999;
   padding: 10px;
   width: 100%;
   font-size: 20px;
   text-align: center;
+  border-radius: 15px;
 }
 
 button {
   display: block;
   margin: 20px auto;
-  border: 5px solid black;
   width: 100%;
-  max-width: 270px;
-  padding: 10px;
-  font-size: 20px;
-  background-color: lightskyblue;
+  max-width: 280px;
+  padding: 15px 25px;
+  font-size: 30px;
+  background-color: white;
+  border-radius: 15px;
   font-weight: bold;
 }
 
 .vote-button {
-  width: 60px;
+  width: 80px;
   display: inline-block;
   margin: 10px 10px;
 }
 
 .block {
-  background: #ffffff;
+  background: #000000;
   border-radius: 10px;
   padding: 20px;
   margin: 20px auto;

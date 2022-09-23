@@ -128,30 +128,63 @@ body {
   background: #000000;
 }
 
-h1 {
-  display: inline-block;
-  margin: 0px;
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
-  color: #666666;
+header {
+  background-color: #ffffff;
+  padding: 5px;
 }
-h1 span {
+#logo {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+#scores {
+  display: inline-block;
+  margin: 0px 5px 0px 420px;
+}
+
+#scores .score-block {
+  padding: 5px 10px;
+  margin: 4px 4px;
+  background-color: #cccccc;
+  border-radius: 5px;
+  display: inline-block;
+}
+.score-block label {
+  color: #666666;
+  text-align: center;
+}
+.score-block h2 {
   font-weight: bold;
-  color: #ffffff;
+  color: #000000;
+  font-size: 24px;
+  margin-top: 3px;
+  text-align: center;
 }
 
 .block {
-  background: #333333;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 20px 20px;
-  text-align: center;
+  padding: 10px 0px;
 }
 
-#pictures img {
-  width: 25%;
-  margin: 20px;
+#pictures {
+  text-align: center;
+}
+#pictures > div {
+  display: inline-block;
+  margin: 4px;
   background-color: #666666;
   border-radius: 10px;
+  border: 2px solid white;
+  overflow: hidden;
+  position: relative;
+}
+#pictures .number {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  border: 2px solid white;
+  background-color: #ffffff;
+  border-bottom-right-radius: 10px;
+  padding: 10px 15px;
+  font-size: 25px;
+  font-weight: bold;
 }

@@ -1,7 +1,7 @@
 const getImage = require("../getImage");
 
 let players = [];
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 8; i++) {
   players[i] = {
     prompt: "",
     image: "",
@@ -14,7 +14,6 @@ module.exports = (app) => {
   app.post("/api/prompt", async (req, res) => {
     const id = req.body.id * 1;
     const prompt = req.body.prompt;
-    console.log(id + ":" + prompt);
     const url = await getImage(prompt);
     players[id].image = url;
     players[id].prompt = prompt;
@@ -43,7 +42,7 @@ module.exports = (app) => {
       }
     }
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       players[i].vote = -1;
       players[i].prompt = "";
       players[i].image = "";
@@ -54,7 +53,7 @@ module.exports = (app) => {
   app.post("/api/restartGame", async (req, res) => {
     console.log("restart");
     players = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       players[i] = {
         prompt: "",
         image: "",
