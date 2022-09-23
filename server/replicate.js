@@ -137,19 +137,19 @@ class DefaultFetchHTTPClient {
   }
 
   // This class uses fetch, which is still experimental in Node 18, so we import a polyfill for Node if fetch is not defined
-  // async importFetch() {
-  //   if (isNode && !globalThis.fetch)
-  //     globalThis.fetch = (await import("node-fetch"))["default"];
-  // }
+  async importFetch() {
+    if (isNode && !globalThis.fetch)
+      globalThis.fetch = (await import("node-fetch"))["default"];
+  }
 
   async get({ url }) {
-    //await this.importFetch();
+    await this.importFetch();
     const response = await fetch(url, { headers: this.headers });
     return await response.json();
   }
 
   async post({ url, body }) {
-    //await this.importFetch();
+    await this.importFetch();
     const fetchOptions = {
       method: "POST",
       headers: this.headers,
