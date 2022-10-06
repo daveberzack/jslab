@@ -1,10 +1,55 @@
-style login screen (with form and screen link)
-get form working: create player and get index back, then redirect
+teacher edition:
+show list of students
+click student to show their code
 
-update db as players sign in
-show scores for players, with name
-fix score
-style images to fit on screen
+post assertions passed
+if code hasn't changed, augment inactive counter
+post help flag
+post failed runs
+
+show passed assertions
+ticks since change
+failed runs
+help flag
 
 
-later: add caption after image generated
+add hints
+track hints revealed
+
+
+store in database
+challenge editor
+
+add general instructions
+buttons: run/stop, instructions, call for help
+
+load theme from BE
+update elements in dom based on theme
+
+other tabs (tick, button handlers, etc. hide. running specifications)
+
+running lines independently, logging/highlighting errors
+
+
+
+
+
+
+
+##<>
+
+~spaceship
+<div class="spaceship" {~}>
+    <img src="spaceship.jpg"/>
+    <h2>{shipName}</h2>
+</div>
+
+~planet
+<div class="planet" {~}>
+    <img src="spaceship.jpg"/>
+    <h2>{shipName}</h2>
+</div>
+
+
+{varName} to inject value from object
+{~} to inject width, height, x and y, rotation, 

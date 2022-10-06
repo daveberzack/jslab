@@ -1,66 +1,66 @@
-const getImage = require("../getImage");
-
-let players = [];
+let students = [];
 for (let i = 0; i < 8; i++) {
-  players[i] = {
-    prompt: "",
-    image: "",
-    vote: -1,
-    score: 0,
+  students[i] = {
+    id: i,
+    name: "Student Name" + i,
+    codeBlocks: [],
   };
 }
 
+const challenge = {
+  title: "Place the Ship",
+  tabs: [
+    {
+      title: "Start",
+      blocks: [
+        {
+          code: `//add a variable named myName here`,
+          hints: ["this is a console log", "another hint", "last hint"],
+        },
+        {
+          hidden: true,
+          code: `test(myName, "You need to define a variable named myName")`,
+          hints: ["this is a console log2", "another hint2", "last hint2"],
+        },
+        {
+          locked: true,
+          code: `log("myName:"+myName);`,
+          hints: ["this is a console log3", "another hint3", "last hint3"],
+        },
+      ],
+    },
+    {
+      title: "Tick",
+      hidden: true,
+      blocks: [
+        {
+          code: `console.log("tick");`,
+          hints: ["asdf", "another hint", "last hint"],
+        },
+      ],
+    },
+  ],
+  theme: "space",
+};
+
 module.exports = (app) => {
-  app.post("/api/prompt", async (req, res) => {
-    const id = req.body.id * 1;
-    const prompt = req.body.prompt;
-    const url = await getImage(prompt);
-    players[id].image = url;
-    players[id].prompt = prompt;
-    res.status(200).send({ message: "success" });
+  app.get("/api/challenge", async (req, res) => {
+    res.status(200).send(challenge);
   });
 
-  app.post("/api/vote", async (req, res) => {
-    const id = req.body.id * 1;
-    const choice = req.body.choice * 1;
-    players[id].vote = choice;
-    res.status(200).send({ message: "success" });
+  app.get("/api/response/:student", async (req, res) => {
+    const id = req.params.student;
+    res.status(200).send(students[id]);
   });
 
-  app.get("/api/state", async (req, res) => {
-    res.status(200).send(players);
+  app.get("/api/responses/:students", async (req, res) => {
+    res.status(200).send(null);
   });
 
-  app.post("/api/endRound", async (req, res) => {
-    console.log("endRound", players);
-
-    for (let i = 0; i < 6; i++) {
-      const vote = players[i].vote;
-      if (vote >= 0) {
-        console.log(vote + ":", players[vote]);
-        players[vote].score++;
-      }
-    }
-
-    for (let i = 0; i < 8; i++) {
-      players[i].vote = -1;
-      players[i].prompt = "";
-      players[i].image = "";
-    }
-    res.status(200).send({ message: "success" });
-  });
-
-  app.post("/api/restartGame", async (req, res) => {
-    console.log("restart");
-    players = [];
-    for (let i = 0; i < 8; i++) {
-      players[i] = {
-        prompt: "",
-        image: "",
-        vote: -1,
-        score: 0,
-      };
-    }
-    res.status(200).send({ message: "success" });
+  app.post("/api/response/:student", async (req, res) => {
+    const id = req.params.student;
+    const data = req.body;
+    students[id] = { ...students[id], ...data };
+    res.status(200).send(students[id]);
   });
 };

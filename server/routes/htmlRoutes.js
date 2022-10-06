@@ -6,11 +6,11 @@ module.exports = (app) => {
     res.sendFile(path.join(__dirname, "../client/index.html"))
   );
 
-  app.get("/player", (req, res) =>
-    res.sendFile(path.join(__dirname, "../../client/player.html"))
+  app.get("/student", (req, res) =>
+    res.sendFile(path.join(__dirname, "../../client/student.html"))
   );
 
-  app.get("/screen", (req, res) =>
-    res.sendFile(path.join(__dirname, "../../client/screen.html"))
+  app.get("/teacher", (req, res) =>
+    res.sendFile(path.join(__dirname, "../../client/teacher.html"))
   );
 };
