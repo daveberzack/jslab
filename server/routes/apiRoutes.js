@@ -14,12 +14,17 @@ const challenge = {
       title: "Start",
       blocks: [
         {
+          locked: true,
+          code: `var myName;`,
+          hints: ["this is a console log3", "another hint3", "last hint3"],
+        },
+        {
           code: `//add a variable named myName here`,
           hints: ["this is a console log", "another hint", "last hint"],
         },
         {
           hidden: true,
-          code: `test(myName, "You need to define a variable named myName")`,
+          code: `test(myName, 1, "You need to define a variable named myName")`,
           hints: ["this is a console log2", "another hint2", "last hint2"],
         },
         {

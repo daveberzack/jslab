@@ -1,3 +1,5 @@
+refactor to view, data, engine, display
+
 teacher edition:
 show list of students
 click student to show their code
