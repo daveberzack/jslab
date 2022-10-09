@@ -1,51 +1,72 @@
 import { updateLogContent } from "./main.js";
 
 let tickInterval = 0;
-const tickDuration = 100;
+const tickDuration = 500;
 
 let logs = [];
 
-function run() {
-  logs = [];
-  updateLogContent(logs);
+// var __EVAL = s => eval(`void (__EVAL = ${__EVAL.toString()}); ${s}`);
 
+// async function evaluate(expr) {
+//   try {
+//     const result = await __EVAL(expr);
+//     console.log(expr, '===>', result)
+//   } catch (err) {
+//     console.log(expr, 'ERROR:', err.message)
+//   }
+// }
+
+function run(sections) {
+  clearLogs();
   clearInterval(tickInterval);
 
-  $("#run-button").hide();
-  $("#stop-button").show();
+  let startCodeBlocks = [];
+  let tickCodeBlocks = [];
+  //let handlerCodeBlocks = [];
+  console.log("s", sections);
+  sections.forEach(s => {
+    
+    let blocks = startCodeBlocks;
+    if (s.type == "tick"){
+      blocks = tickCodeBlocks;
+    }
+    else if (s.type == "handler"){
+      
+    }
 
-  const startCodeBlocks = document.querySelectorAll(".tab-view p");
-  let startCode = "";
-  startCodeBlocks.forEach((b) => {
-    startCode = startCode + "\n" + $(b).text();
+    s.blocks.forEach( b => {
+      blocks.push(b);
+    })
+
   });
 
-  try {
-    eval(startCode);
-  } catch (e) {
-    log("ERROR", "orange");
-    console.log(e);
-  }
 
-  /*
-    
+  startCodeBlocks.forEach( b => {
+    try {
+      console.log("EVAL: ",b.code);
+      eval?.(b.code);
+      console.log("?: ",myName);
+    } catch (e) {
+      log("ERROR", "orange");
+      console.log(e);
+    }
+  })
+
+  tickInterval = setInterval(() => {
+    tickCodeBlocks.forEach( b => {
+      try {
+        eval?.(b.code);
+      } catch (e) {
+        log("ERROR", "orange");
+        console.log(e);
+      }
+    })
+  }, tickDuration);
   
-    let tickCode = "";
-    const tickCodeBlocks = document.querySelectorAll("#tick-code p");
-    tickCodeBlocks.forEach((b) => {
-      tickCode = tickCode + "\n" + $(b).text();
-    });
-    
-    tickInterval = setInterval(() => {
-      runCode(tickCode);
-    }, tickDuration);
-    */
 }
 
 function stop() {
   clearInterval(tickInterval);
-  $("#run-button").show();
-  $("#stop-button").hide();
 }
 
 function test(value, index, message) {
@@ -65,4 +86,9 @@ const log = (message, color) => {
   updateLogContent(logs);
 };
 
-export { run, stop, test, log };
+const clearLogs = () => {
+  logs = [];
+  updateLogContent(logs);
+};
+
+export { run, stop, clearLogs };

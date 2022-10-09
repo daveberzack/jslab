@@ -1,8 +1,16 @@
-refactor to view, data, engine, display
+read code to send to engine
+errors. highlight block
 
-teacher edition:
-show list of students
-click student to show their code
+load template code
+save current version code
+
+load multiple versions (default to first one)
+list: click version name to show different version
+hide list if not teacher version
+
+
+
+
 
 post assertions passed
 if code hasn't changed, augment inactive counter
@@ -14,10 +22,16 @@ ticks since change
 failed runs
 help flag
 
+buttons for icons
 
 add hints
-track hints revealed
+track hints revealed, solutions viewed
 
+// assertions shown as a row of colored blocks, highlighted when passed. 
+// hint/solution as a colored dot below each.
+// show a hand icon if help requested
+// show an alert icon if inactive 
+// show number of failed runs
 
 store in database
 challenge editor

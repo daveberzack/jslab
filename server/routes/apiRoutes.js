@@ -12,6 +12,7 @@ const challenge = {
   tabs: [
     {
       title: "Start",
+      type: "start",
       blocks: [
         {
           locked: true,
@@ -36,6 +37,7 @@ const challenge = {
     },
     {
       title: "Tick",
+      type: "tick",
       hidden: true,
       blocks: [
         {

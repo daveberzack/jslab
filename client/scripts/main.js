@@ -1,3 +1,4 @@
+
 import {
   loadCode,
   saveCode,
@@ -7,30 +8,99 @@ import {
   studentId,
   initData,
 } from "./data.js";
-import { run, stop, test, log } from "./engine.js";
+import { run, stop, clearLogs } from "./engine.js";
 
-const addListeners = () => {
-  $("#run-button").click(run);
-  $("#stop-button").click(stop);
-};
-
-function showTab(i) {
-  $(".tab-nav").removeClass("active");
-  $("#tab-nav" + i).addClass("active");
-  $(".tab-view").hide();
-  $("#tab-view" + i).show();
+jQuery.fn.minitabs = function() {
+  var id = "#" + this.attr('id');
+  console.log("mini "+id, this);
+  $(id + " .tab-pane:gt(0)").hide();
+  $(id + ">ul>li>a:first").addClass("current");
+  $(id + ">ul>li>a").click(
+    function(){
+      $(id + ">ul>li>a").removeClass("current");
+      $(this).addClass("current");
+      $(this).blur();
+      var re = /([_\-\w]+$)/i;
+      var target = $('#' + re.exec(this.href)[1]);
+      var old = $(id + " .tab-pane");
+          old.hide();
+          target.show()
+      return false;
+    }
+  );
 }
 
-function updateCode() {
-  challengeData.tabs.forEach((tab, i) => {
-    let $navElement = $(
-      `<div class="tab-nav" id="tab-nav${i}" onclick="showTab(${i});" >${tab.title}</div>`
-    );
-    $("#tab-nav-bar").append($navElement);
+function onRun(){
+  $("#run-button").hide();
+  $("#stop-button").show();
 
-    let $tabElement = $(
-      `<div id="tab-view${i}" class="tab-view block code"></div>`
-    );
+  // const sections = [
+  //   {
+  //     type:"start",
+  //     blocks:[
+  //       {
+  //         id:"code1-1",
+  //         code:`log("working")`
+  //       },
+  //       {
+  //         id:"code1-2",
+  //         code:`log("working2")`
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     type:"tick",
+  //     blocks:[
+  //       {
+  //         id:"code2-1",
+  //         code:`log("ticking")`
+  //       }
+  //     ]
+  //   }
+  // ];
+
+  let sections = [];
+
+  let $panes = $(".code-pane");
+  $panes.each( function(){
+    let section = {};
+    section.type = $(this).attr("data-type") || "start";
+
+    section.blocks = [];
+    let $blocks = $(this).find("p");
+    $blocks.each( function(){
+      section.blocks.push({
+        id: "1",
+        code: $(this).text()
+      });
+    })
+
+    sections.push(section);
+  })
+  run(sections);
+}
+
+function onStop(){
+  $("#run-button").show();
+  $("#stop-button").hide();
+  stop();
+}
+
+const addListeners = () => {
+  $("#run-button").click(onRun);
+  $("#stop-button").click(onStop);
+};
+
+
+function updateCode() {
+  let navHtml = "";
+  let panesHtml = "";
+  challengeData.tabs.forEach((tab, i) => {
+    navHtml += `<li><a href="#code-pane${i}">${tab.title}</a></li>`;
+
+    let paneHtml = `<div id="code-pane${i}" class="tab-pane code-pane block" data-type="${tab.type}">`;
+
+    
     tab.blocks.forEach((block, j) => {
       let codeText = block.code;
 
@@ -40,37 +110,42 @@ function updateCode() {
       }
 
       if (block.hidden) {
-        $tabElement.append(`<p class="hidden">${codeText}</p>`);
+        paneHtml += `<p class="hidden">${codeText}</p>`;
       } else if (block.locked) {
-        $tabElement.append(`<p class="locked">${codeText}</p>`);
+        paneHtml += `<p class="locked">${codeText}</p>`;
       } else {
-        $tabElement.append(
-          `<p contenteditable="true" class="editable">${codeText}</p>`
-        );
+        paneHtml += `<p contenteditable="true" class="editable">${codeText}</p>`;
       }
     });
-    $("#code").append($tabElement);
+    paneHtml += `</div>`;
+    
+    panesHtml+=paneHtml;
   });
+
+  $("#code-tabs .tab-nav").html(navHtml);
+  $("#code-panes").html(panesHtml);
+
+  $('#code-tabs').minitabs();
+  $('#content-tabs').minitabs();
 }
 
 const updateLogContent = (logs) => {
-  const html = "";
+  let html = "";
 
   logs.forEach((l) => {
     const c = l.color || "#FFFFFF";
     html += "<p style='color:" + c + "'>" + l.message + "</p>";
   });
 
-  $("log").html(html);
+  $("#log").html(html);
 };
 
 async function init() {
   initData();
-  stop();
+  onStop();
   resize();
 
   $(window).resize(resize);
-  showTab(0);
   addListeners();
 }
 
@@ -87,6 +162,8 @@ function resize() {
   $("#canvas").width(ch);
 }
 
-init();
+$(function(){
+  init();
+});
 
 export { updateLogContent, updateCode };

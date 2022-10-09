@@ -14,20 +14,54 @@
     <link href="styles/style.css" rel="stylesheet" />
   </head>
   <body>
+    <div id="header">
+      <div class="button" id="run-button">Run</div>
+      <div class="button" id="stop-button">Stop</div>
+    </div>
+
     <div class="col">
-      <div id="header">
-        <div id="tab-nav-bar"></div>
-        <div class="button" id="run-button">Run</div>
-        <div class="button" id="stop-button">Stop</div>
+
+      <div id="code-tabs">
+        <ul class="tab-nav"></ul>
+        <div id="code-panes"></div>
       </div>
 
-      <div id="code"></div>
     </div>
+
     <div class="col col2">
-      <div id="view" class="block">
-        <div id="canvas"></div>
+
+
+      <div id="content-tabs">
+        <ul class="tab-nav">
+          <li><a href="#instructions-pane">Instructions</a></li>
+          <li><a href="#results-pane">Results</a></li>
+          <li><a href="#versions-pane">Versions</a></li>
+        </ul>
+        <div>
+          <div id="instructions-pane" class="tab-pane block">
+            <h2>Instructions</h2>
+            <p>Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions </p>
+            <p>Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions Instructions </p>
+          </div>
+
+          <div id="results-pane" class="tab-pane">
+            <div id="view" class="block">
+              <div id="canvas"></div>
+            </div>
+            <div id="log" class="block"></div>
+          </div>
+
+          <div id="versions-pane" class="tab-pane block">
+            <ul>
+              <li><a href="#">Version 1</a></li>
+              <li><a href="#">Version 2</a></li>
+              <li><a href="#">Version 3</a></li>
+            </ul>
+          </div>
+
+        </div>
       </div>
-      <div id="log" class="block"></div>
+
     </div>
   </body>
 </html>
