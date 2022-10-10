@@ -1,5 +1,9 @@
-import { template, versions, currentVersionIndex, initData } from "./data.js";
+import { template, versions, initData } from "./data.js";
 import { run, stop, clearLogs } from "./engine.js";
+
+let currentVersionIndex = 1;
+let tabsInitialized = false;
+let isInstructor = false;
 
 jQuery.fn.minitabs = function () {
   var id = "#" + this.attr("id");
@@ -24,7 +28,7 @@ function getSections() {
   let $panes = $(`.code-pane`);
   $panes.each(function () {
     let section = {};
-
+    section.priority = $(this).attr("data-priority");
     section.blocks = [];
     let $blocks = $(this).find("p");
     $blocks.each(function () {
@@ -65,9 +69,11 @@ function updateCode() {
   let panesHtml = "";
   const version = versions[currentVersionIndex];
   template.sections.forEach((section, i) => {
-    navHtml += `<li><a href="#code-pane${i}">${section.title}</a></li>`;
+    if (!section.hidden) {
+      navHtml += `<li><a href="#code-pane${i}">${section.title}</a></li>`;
+    }
 
-    let paneHtml = `<div id="code-pane${i}" class="tab-pane code-pane block" data-type="${section.type}">`;
+    let paneHtml = `<div id="code-pane${i}" class="tab-pane code-pane block" data-priority="${section.priority}">`;
 
     section.blocks.forEach((block, j) => {
       let codeText = block.code;
@@ -85,7 +91,7 @@ function updateCode() {
       } else if (block.locked) {
         attrs = `class="locked"`;
       }
-      paneHtml += `<p id="${id}" spellcheck="false" ${attrs}>${codeText}</p>`;
+      paneHtml += `<p id="${id}" data-section="${i}" data-block="${j}" spellcheck="false" ${attrs}>${codeText}</p>`;
     });
     paneHtml += `</div>`;
 
@@ -95,8 +101,39 @@ function updateCode() {
   $("#code-tabs .tab-nav").html(navHtml);
   $("#code-panes").html(panesHtml);
 
-  $("#code-tabs").minitabs();
-  $("#content-tabs").minitabs();
+  $(".code-pane p").keyup(function () {
+    const section = $(this).attr("data-section");
+    const block = $(this).attr("data-block");
+    let s = versions[currentVersionIndex].sections;
+    if (!s[section]) {
+      s[section] = { blocks: [] };
+    }
+    if (!s[section].blocks[block]) {
+      s[section].blocks[block] = {};
+    }
+    s[section].blocks[block].code = $(this).text();
+  });
+
+  if (!tabsInitialized) {
+    $("#code-tabs").minitabs();
+    $("#content-tabs").minitabs();
+    tabsInitialized = true;
+  }
+}
+
+function updateVersionsList() {
+  let versionsHtml = "";
+  versions.forEach((version, i) => {
+    const currentClass = currentVersionIndex == i ? 'class="current"' : "";
+    versionsHtml += `<li data-index="${i}" ${currentClass}>${version.name}</li>`;
+  });
+  $("#versions-pane ul").html(versionsHtml);
+
+  $("#versions-pane li").click(function () {
+    currentVersionIndex = $(this).attr("data-index");
+    updateCode();
+    updateVersionsList();
+  });
 }
 
 function parseCode() {
@@ -138,10 +175,15 @@ const clearCodeBlockHighlights = () => {
   $(".code-pane p.error").removeClass("error");
 };
 
+const initUI = () => {
+  if (!isInstructor) $("#versions-link").hide();
+};
+
 async function init() {
   initData();
   onStop();
   resize();
+  initUI();
 
   $(window).resize(resize);
   addListeners();
@@ -167,6 +209,8 @@ $(function () {
 export {
   updateLogContent,
   updateCode,
+  updateVersionsList,
+  currentVersionIndex,
   parseCode,
   highlightCodeBlock,
   clearCodeBlockHighlights,

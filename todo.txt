@@ -1,8 +1,4 @@
-tab run priority
-multiple versions
-list: click version name to show different version
 
-hide list if not teacher version
 CSS: formatting/sizing content blocks
 icons
 

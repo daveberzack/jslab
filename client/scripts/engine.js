@@ -10,7 +10,7 @@ let isError = false;
 let logs = [];
 
 var cleanup = function () {
-  console.log("cleanup");
+  console.log("default cleanup");
 };
 
 function formatCodeBlock(b) {
@@ -27,15 +27,23 @@ function run(sections) {
   isError = false;
   clearLogs();
 
-  let startCode = "";
+  let codeToRun = "";
 
-  sections.forEach((s) => {
+  const sectionsToRun = [...sections];
+  sectionsToRun.sort((a, b) => {
+    if (a.priority > b.priority) return 1;
+    else if (b.priority > a.priority) return -1;
+    else return 0;
+  });
+
+  console.log(sectionsToRun);
+  sectionsToRun.forEach((s) => {
     s.blocks.forEach((b) => {
-      startCode += formatCodeBlock(b);
+      codeToRun += formatCodeBlock(b);
     });
   });
 
-  eval(startCode);
+  eval(codeToRun);
 }
 
 function stop() {

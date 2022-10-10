@@ -1,5 +1,5 @@
 let versions = [];
-for (let i = 0; i < 8; i++) {
+for (let i = 0; i < 5; i++) {
   versions[i] = {
     id: i,
     name: "Student Name" + i,
@@ -12,7 +12,11 @@ const template = {
   sections: [
     {
       title: "Start",
+      priority: 2,
       blocks: [
+        {
+          code: `console.log("run start");`,
+        },
         {
           locked: true,
           code: `var myName;`,
@@ -36,7 +40,11 @@ const template = {
     },
     {
       title: "Tick",
+      priority: 1,
       blocks: [
+        {
+          code: `console.log("run tick");`,
+        },
         {
           code: `var tickInterval = setInterval( function(){
             console.log("tick");
@@ -47,6 +55,7 @@ const template = {
     {
       title: "End",
       hidden: true,
+      priority: 0,
       blocks: [
         {
           code: `console.log("run cleanup");`,

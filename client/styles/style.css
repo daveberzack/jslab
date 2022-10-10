@@ -293,6 +293,13 @@ a {
   padding: 10px;
   border-radius: 5px;
 }
+#versions-pane li.current {
+  margin: 5px;
+  color: orange;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+}
 
 *::-webkit-scrollbar {
   width: 20px; /* width of the entire scrollbar */
