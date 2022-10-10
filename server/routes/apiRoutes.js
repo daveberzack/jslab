@@ -1,18 +1,17 @@
-let students = [];
+let versions = [];
 for (let i = 0; i < 8; i++) {
-  students[i] = {
+  versions[i] = {
     id: i,
     name: "Student Name" + i,
-    codeBlocks: [],
+    sections: [],
   };
 }
 
-const challenge = {
+const template = {
   title: "Place the Ship",
-  tabs: [
+  sections: [
     {
       title: "Start",
-      type: "start",
       blocks: [
         {
           locked: true,
@@ -37,12 +36,23 @@ const challenge = {
     },
     {
       title: "Tick",
-      type: "tick",
+      blocks: [
+        {
+          code: `var tickInterval = setInterval( function(){
+            console.log("tick");
+          }, 500);`,
+        },
+      ],
+    },
+    {
+      title: "End",
       hidden: true,
       blocks: [
         {
-          code: `console.log("tick");`,
-          hints: ["asdf", "another hint", "last hint"],
+          code: `console.log("run cleanup");`,
+        },
+        {
+          code: `cleanup = function(){ clearInterval(tickInterval); }`,
         },
       ],
     },
@@ -51,23 +61,19 @@ const challenge = {
 };
 
 module.exports = (app) => {
-  app.get("/api/challenge", async (req, res) => {
-    res.status(200).send(challenge);
+  app.get("/api/template", async (req, res) => {
+    res.status(200).send(template);
   });
 
-  app.get("/api/response/:student", async (req, res) => {
-    const id = req.params.student;
-    res.status(200).send(students[id]);
+  app.get("/api/versions/:students", async (req, res) => {
+    const id = req.params.students.split("&")[0];
+    res.status(200).send(versions);
   });
 
-  app.get("/api/responses/:students", async (req, res) => {
-    res.status(200).send(null);
-  });
-
-  app.post("/api/response/:student", async (req, res) => {
+  app.post("/api/version", async (req, res) => {
     const id = req.params.student;
     const data = req.body;
-    students[id] = { ...students[id], ...data };
-    res.status(200).send(students[id]);
+    versions[data.id] = { ...versions[id], ...data };
+    res.status(200).send(versions[data.id]);
   });
 };

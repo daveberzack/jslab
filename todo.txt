@@ -1,31 +1,29 @@
-read code to send to engine
-errors. highlight block
-
-load template code
-save current version code
-
-load multiple versions (default to first one)
+tab run priority
+multiple versions
 list: click version name to show different version
+
 hide list if not teacher version
-
-
-
+CSS: formatting/sizing content blocks
+icons
 
 
 post assertions passed
-if code hasn't changed, augment inactive counter
-post help flag
-post failed runs
+last edited time
+help flag
+failed runs (passing a new assertion is not a fail)
 
 show passed assertions
-ticks since change
-failed runs
+time since change
 help flag
+failed runs
+
 
 buttons for icons
 
 add hints
 track hints revealed, solutions viewed
+
+make run do something to show that it's running and still errors
 
 // assertions shown as a row of colored blocks, highlighted when passed. 
 // hint/solution as a colored dot below each.
@@ -36,15 +34,10 @@ track hints revealed, solutions viewed
 store in database
 challenge editor
 
-add general instructions
-buttons: run/stop, instructions, call for help
+
 
 load theme from BE
 update elements in dom based on theme
-
-other tabs (tick, button handlers, etc. hide. running specifications)
-
-running lines independently, logging/highlighting errors
 
 
 

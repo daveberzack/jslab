@@ -134,7 +134,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 [contenteditable] {
@@ -159,9 +159,8 @@ a {
   overflow: hidden;
 }
 
-
 .tab-nav {
-  overflow:hidden;
+  overflow: hidden;
 }
 .tab-nav li {
   display: inline-block;
@@ -215,10 +214,11 @@ a {
 .code-pane p {
   margin: 5px;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 0px 5px;
   overflow: hidden;
   line-height: 1.5;
   white-space: pre-line;
+  border: 5px solid black;
 }
 
 .code-pane {
@@ -232,11 +232,15 @@ a {
   margin: 5px;
   color: #6666cc;
   overflow: hidden;
+  border: 5px solid #00000000;
 }
 .code-pane p.hidden {
   display: none;
 }
 
+.code-pane p.error {
+  border-color: orange;
+}
 
 /* --------------- RESULTS PANE --------------- */
 
@@ -260,7 +264,6 @@ a {
   overflow-y: auto;
   position: relative;
 }
-
 
 /* --------------- INSTRUCTIONS PANE --------------- */
 #instructions-pane h2 {

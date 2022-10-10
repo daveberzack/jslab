@@ -1,72 +1,45 @@
-import { updateLogContent } from "./main.js";
+import {
+  updateLogContent,
+  highlightCodeBlock,
+  clearCodeBlockHighlights,
+  onStop,
+} from "./main.js";
 
-let tickInterval = 0;
-const tickDuration = 500;
+let isError = false;
 
 let logs = [];
 
-// var __EVAL = s => eval(`void (__EVAL = ${__EVAL.toString()}); ${s}`);
+var cleanup = function () {
+  console.log("cleanup");
+};
 
-// async function evaluate(expr) {
-//   try {
-//     const result = await __EVAL(expr);
-//     console.log(expr, '===>', result)
-//   } catch (err) {
-//     console.log(expr, 'ERROR:', err.message)
-//   }
-// }
+function formatCodeBlock(b) {
+  return `
+  if (!isError) { try {
+  ${b.code}
+  } catch (e) {
+    error(e.message, "${b.id}");
+  }}`;
+}
 
 function run(sections) {
+  clearCodeBlockHighlights();
+  isError = false;
   clearLogs();
-  clearInterval(tickInterval);
 
-  let startCodeBlocks = [];
-  let tickCodeBlocks = [];
-  //let handlerCodeBlocks = [];
-  console.log("s", sections);
-  sections.forEach(s => {
-    
-    let blocks = startCodeBlocks;
-    if (s.type == "tick"){
-      blocks = tickCodeBlocks;
-    }
-    else if (s.type == "handler"){
-      
-    }
+  let startCode = "";
 
-    s.blocks.forEach( b => {
-      blocks.push(b);
-    })
-
+  sections.forEach((s) => {
+    s.blocks.forEach((b) => {
+      startCode += formatCodeBlock(b);
+    });
   });
 
-
-  startCodeBlocks.forEach( b => {
-    try {
-      console.log("EVAL: ",b.code);
-      eval?.(b.code);
-      console.log("?: ",myName);
-    } catch (e) {
-      log("ERROR", "orange");
-      console.log(e);
-    }
-  })
-
-  tickInterval = setInterval(() => {
-    tickCodeBlocks.forEach( b => {
-      try {
-        eval?.(b.code);
-      } catch (e) {
-        log("ERROR", "orange");
-        console.log(e);
-      }
-    })
-  }, tickDuration);
-  
+  eval(startCode);
 }
 
 function stop() {
-  clearInterval(tickInterval);
+  cleanup();
 }
 
 function test(value, index, message) {
@@ -84,6 +57,13 @@ function test(value, index, message) {
 const log = (message, color) => {
   logs.push({ message, color });
   updateLogContent(logs);
+};
+
+const error = (message, id) => {
+  log(message, "orange");
+  highlightCodeBlock(id);
+  isError = true;
+  onStop();
 };
 
 const clearLogs = () => {
