@@ -5,10 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "cd server && npm run server ",
-    "start": "cd server && node server.js",
-    "server": "cd server node server.js --ignore client",
-    "install": "cd client && npm install",
-    "client": "cd client && npm start"
+    "start": "cd server && node server.js"
   },
   "dependencies": {
     "dotenv": "^16.0.2",

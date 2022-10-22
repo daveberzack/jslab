@@ -15,6 +15,13 @@ help flag
 failed runs
 
 
+
+// "server": "cd server node server.js --ignore client",
+    // "install": "cd client && npm install",
+    // "client": "cd client && npm start"
+    
+
+
 CSS: formatting/sizing content blocks
 icons
 
