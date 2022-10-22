@@ -1,73 +1,31 @@
 let versions = [];
-for (let i = 0; i < 5; i++) {
-  versions[i] = {
+
+const names = [
+  "Ashtean",
+  "Sofia",
+  "Jack",
+  "Patrick",
+  "Zaria",
+  "Emmanuelle",
+  "Amon",
+  "Aaron",
+  "Skyler",
+  "Jules",
+  "Nick",
+  "Roman",
+  "Remy",
+  "Ryden",
+  "Lydia",
+];
+for (let i = 0; i < names.length; i++) {
+  versions.push({
     id: i,
-    name: "Student Name" + i,
+    name: names[i],
     sections: [],
-  };
+  });
 }
 
-const template = {
-  title: "Place the Ship",
-  sections: [
-    {
-      title: "Start",
-      priority: 2,
-      blocks: [
-        {
-          code: `console.log("run start");`,
-        },
-        {
-          locked: true,
-          code: `var myName;`,
-          hints: ["this is a console log3", "another hint3", "last hint3"],
-        },
-        {
-          code: `//add a variable named myName here`,
-          hints: ["this is a console log", "another hint", "last hint"],
-        },
-        {
-          hidden: true,
-          code: `test(myName, 1, "You need to define a variable named myName")`,
-          hints: ["this is a console log2", "another hint2", "last hint2"],
-        },
-        {
-          locked: true,
-          code: `log("myName:"+myName);`,
-          hints: ["this is a console log3", "another hint3", "last hint3"],
-        },
-      ],
-    },
-    {
-      title: "Tick",
-      priority: 1,
-      blocks: [
-        {
-          code: `console.log("run tick");`,
-        },
-        {
-          code: `var tickInterval = setInterval( function(){
-            console.log("tick");
-          }, 500);`,
-        },
-      ],
-    },
-    {
-      title: "End",
-      hidden: true,
-      priority: 0,
-      blocks: [
-        {
-          code: `console.log("run cleanup");`,
-        },
-        {
-          code: `cleanup = function(){ clearInterval(tickInterval); }`,
-        },
-      ],
-    },
-  ],
-  theme: "space",
-};
+const template = require("../templates/blank");
 
 module.exports = (app) => {
   app.get("/api/template", async (req, res) => {
@@ -75,8 +33,13 @@ module.exports = (app) => {
   });
 
   app.get("/api/versions/:students", async (req, res) => {
-    const id = req.params.students.split("&")[0];
-    res.status(200).send(versions);
+    const ids = req.params.students.split("&");
+
+    console.log(versions);
+    const versionsToSend = versions.filter((v) => ids.includes(v.id + ""));
+    console.log("...");
+    console.log(versionsToSend);
+    res.status(200).send(versionsToSend);
   });
 
   app.post("/api/version", async (req, res) => {

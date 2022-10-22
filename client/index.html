@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS Classroom</title>
+    <title>Code Central</title>
     <script
       src="https://code.jquery.com/jquery-3.6.1.min.js"
       integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
@@ -15,6 +15,8 @@
   </head>
   <body>
     <div id="header">
+      <img id="logo" src="img/logo.png" />
+      <h1>Code Central</h1>
       <div class="button" id="run-button">Run</div>
       <div class="button" id="stop-button">Stop</div>
     </div>
@@ -29,12 +31,12 @@
     <div class="col col2">
       <div id="content-tabs">
         <ul class="tab-nav">
-          <li><a href="#instructions-pane">Instructions</a></li>
-          <li><a href="#results-pane">Results</a></li>
+          <!-- <li><a href="#instructions-pane">Instructions</a></li> -->
+          <li><a id="results-tab" href="#results-pane">Results</a></li>
           <li id="versions-link"><a href="#versions-pane">Versions</a></li>
         </ul>
         <div>
-          <div id="instructions-pane" class="tab-pane block">
+          <!-- <div id="instructions-pane" class="tab-pane block">
             <h2>Instructions</h2>
             <p>
               Instructions Instructions Instructions Instructions Instructions
@@ -48,7 +50,7 @@
               Instructions Instructions Instructions Instructions Instructions
               Instructions Instructions Instructions
             </p>
-          </div>
+          </div> -->
 
           <div id="results-pane" class="tab-pane">
             <div id="view" class="block">
@@ -61,6 +63,27 @@
             <ul></ul>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="version-select">
+      <div>
+        <h2>Who are you?</h2>
+        <a data-id="0" href="#">Ashtean</a>
+        <a data-id="1" href="#">Sofia</a>
+        <a data-id="2" href="#">Jack</a>
+        <a data-id="3" href="#">Patrick</a>
+        <a data-id="4" href="#">Zaria</a>
+        <a data-id="5" href="#">Emmanuelle</a>
+        <a data-id="6" href="#">Amon</a>
+        <a data-id="7" href="#">Aaron</a>
+        <a data-id="8" href="#">Skyler</a>
+        <a data-id="9" href="#">Jules</a>
+        <a data-id="10" href="#">Nick</a>
+        <a data-id="11" href="#">Roman</a>
+        <a data-id="12" href="#">Remy</a>
+        <a data-id="13" href="#">Ryden</a>
+        <a data-id="14" href="#">Lydia</a>
       </div>
     </div>
   </body>

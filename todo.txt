@@ -1,7 +1,8 @@
+fix issue about merging multiline
+deploy, domain
 
-CSS: formatting/sizing content blocks
-icons
-
+update challenge from teacher version
+add challenges
 
 post assertions passed
 last edited time
@@ -14,9 +15,10 @@ help flag
 failed runs
 
 
-buttons for icons
+CSS: formatting/sizing content blocks
+icons
 
-add hints
+add hint, solution. view them with button
 track hints revealed, solutions viewed
 
 make run do something to show that it's running and still errors
@@ -29,6 +31,10 @@ make run do something to show that it's running and still errors
 
 store in database
 challenge editor
+
+
+
+
 
 
 

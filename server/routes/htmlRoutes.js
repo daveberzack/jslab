@@ -5,12 +5,4 @@ module.exports = (app) => {
   app.get("/", (req, res) =>
     res.sendFile(path.join(__dirname, "../client/index.html"))
   );
-
-  app.get("/student", (req, res) =>
-    res.sendFile(path.join(__dirname, "../../client/student.html"))
-  );
-
-  app.get("/teacher", (req, res) =>
-    res.sendFile(path.join(__dirname, "../../client/teacher.html"))
-  );
 };

@@ -1,9 +1,11 @@
-import { template, versions, initData } from "./data.js";
+import { template, versions, initData, updateVersions } from "./data.js";
 import { run, stop, clearLogs } from "./engine.js";
 
-let currentVersionIndex = 1;
+const queryString = window.location.search;
+
+let currentVersionIndex = 0;
 let tabsInitialized = false;
-let isInstructor = false;
+let isInstructor = queryString.indexOf("instructor") >= 0;
 
 jQuery.fn.minitabs = function () {
   var id = "#" + this.attr("id");
@@ -47,6 +49,7 @@ function getSections() {
 function onRun() {
   $("#run-button").hide();
   $("#stop-button").show();
+  $("#results-tab").click();
 
   let sections = getSections();
 
@@ -129,8 +132,9 @@ function updateVersionsList() {
   });
   $("#versions-pane ul").html(versionsHtml);
 
-  $("#versions-pane li").click(function () {
+  $("#versions-pane li").click(async function () {
     currentVersionIndex = $(this).attr("data-index");
+    await updateVersions();
     updateCode();
     updateVersionsList();
   });
@@ -179,8 +183,10 @@ const initUI = () => {
   if (!isInstructor) $("#versions-link").hide();
 };
 
-async function init() {
-  initData();
+async function init(ids) {
+  $("#version-select").hide();
+
+  initData(ids);
   onStop();
   resize();
   initUI();
@@ -195,15 +201,25 @@ function resize() {
 
   $(".col").width((winW - 30) / 2);
   $(".code").height(winH - 70);
-  $("#log").height(winH - 760);
 
-  const ch = Math.min(winH - 280, winW / 2 - 40);
-  $("#canvas").height(ch);
-  $("#canvas").width(ch);
+  //$("#log").height(winH - 760);
+  // const ch = Math.min(winH - 280, winW / 2 - 40);
+  // $("#canvas").height(ch);
+  // $("#canvas").width(ch);
+  $("#view").hide();
+  $("#log").height(winH - 170);
 }
 
 $(function () {
-  init();
+  const allIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  if (isInstructor) init(allIds);
+  else {
+    $("#version-select a").click((e) => {
+      e.preventDefault();
+      const id = $(e.target).attr("data-id");
+      init([id]);
+    });
+  }
 });
 
 export {
