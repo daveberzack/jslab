@@ -10,7 +10,7 @@ let isError = false;
 let logs = [];
 
 var cleanup = function () {
-  console.log("default cleanup");
+  //console.log("default cleanup");
 };
 
 function formatCodeBlock(b) {
@@ -36,7 +36,6 @@ function run(sections) {
     else return 0;
   });
 
-  console.log(sectionsToRun);
   sectionsToRun.forEach((s) => {
     s.blocks.forEach((b) => {
       codeToRun += formatCodeBlock(b);

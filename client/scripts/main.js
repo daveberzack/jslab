@@ -36,7 +36,7 @@ function getSections() {
     $blocks.each(function () {
       section.blocks.push({
         id: $(this).attr("id"),
-        code: $(this).text(),
+        code: this.innerText,
       });
     });
 
@@ -144,7 +144,6 @@ function updateVersionsList() {
 
 function parseCode() {
   let sections = [];
-  console.log("parse");
   $(".code-pane").each(function (i) {
     let myBlocks = [];
     $(this)
