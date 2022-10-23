@@ -35,16 +35,16 @@ module.exports = (app) => {
   app.get("/api/versions/:students", async (req, res) => {
     const ids = req.params.students.split("&");
 
-    console.log(versions);
     const versionsToSend = versions.filter((v) => ids.includes(v.id + ""));
-    console.log("...");
-    console.log(versionsToSend);
+    console.log("get versions", versionsToSend);
     res.status(200).send(versionsToSend);
   });
 
   app.post("/api/version", async (req, res) => {
     const id = req.params.student;
     const data = req.body;
+
+    console.log("post version", data);
     versions[data.id] = { ...versions[id], ...data };
     res.status(200).send(versions[data.id]);
   });
