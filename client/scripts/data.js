@@ -19,6 +19,7 @@ async function updateVersions() {
   const studentIds = ids.join("&");
   const response = await fetch("/api/versions/" + studentIds);
   versions = await response.json();
+
   updateVersionsList();
   updateCode();
 }
@@ -41,6 +42,7 @@ async function saveVersion() {
 async function initData(ids) {
   await loadTemplate();
   await loadVersions(ids);
+
   setInterval(saveVersion, saveDelay);
 }
 

@@ -233,6 +233,7 @@ a {
   line-height: 1.5;
   white-space: pre-line;
   border: 5px solid black;
+  white-space: pre;
 }
 
 .code-pane {

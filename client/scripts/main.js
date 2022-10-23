@@ -114,7 +114,9 @@ function updateCode() {
     if (!s[section].blocks[block]) {
       s[section].blocks[block] = {};
     }
-    s[section].blocks[block].code = $(this).text();
+
+    const sectionText = this.innerText;
+    s[section].blocks[block].code = sectionText;
   });
 
   if (!tabsInitialized) {
@@ -142,7 +144,7 @@ function updateVersionsList() {
 
 function parseCode() {
   let sections = [];
-
+  console.log("parse");
   $(".code-pane").each(function (i) {
     let myBlocks = [];
     $(this)
