@@ -15,19 +15,19 @@ var cleanup = function () {
 
 function formatCodeBlock(b) {
   return `
-  if (!isError) { try {
-  ${b.code}
-  } catch (e) {
-    error(e.message, "${b.id}");
-  }}`;
+window.currentBlockId="${b.id}";
+${b.code}
+`;
 }
 
 function run(sections) {
+  console.log("run", sections);
   clearCodeBlockHighlights();
-  isError = false;
   clearLogs();
 
-  let codeToRun = "";
+  let codeToRun = `
+try {
+`;
 
   const sectionsToRun = [...sections];
   sectionsToRun.sort((a, b) => {
@@ -41,7 +41,10 @@ function run(sections) {
       codeToRun += formatCodeBlock(b);
     });
   });
-
+  codeToRun += `} catch (e){
+error(e.message, window.currentBlockId)
+}`;
+  console.log("RUN", codeToRun);
   eval(codeToRun);
 }
 
@@ -69,13 +72,16 @@ const log = (message, color) => {
 const error = (message, id) => {
   log(message, "orange");
   highlightCodeBlock(id);
-  isError = true;
   onStop();
 };
 
 const clearLogs = () => {
   logs = [];
   updateLogContent(logs);
+};
+
+window.onerror = function (e) {
+  log("Syntax Error");
 };
 
 export { run, stop, clearLogs };

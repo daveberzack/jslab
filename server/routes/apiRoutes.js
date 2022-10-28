@@ -25,7 +25,7 @@ for (let i = 0; i < names.length; i++) {
   });
 }
 
-const template = require("../templates/blank");
+const template = require("../templates/functions");
 
 module.exports = (app) => {
   app.get("/api/template", async (req, res) => {

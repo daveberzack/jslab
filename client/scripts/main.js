@@ -34,10 +34,13 @@ function getSections() {
     section.blocks = [];
     let $blocks = $(this).find("p");
     $blocks.each(function () {
-      section.blocks.push({
+      let newBlock = {
         id: $(this).attr("id"),
         code: this.innerText,
-      });
+        isLocked: $(this).hasClass("locked"),
+        isHidden: $(this).hasClass("hidden"),
+      };
+      section.blocks.push(newBlock);
     });
 
     sections.push(section);
