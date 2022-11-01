@@ -5,8 +5,6 @@ import {
   onStop,
 } from "./main.js";
 
-let isError = false;
-
 let logs = [];
 
 var cleanup = function () {
@@ -20,14 +18,19 @@ ${b.code}
 `;
 }
 
+function wrapInTry(code, logError) {
+  return `
+  try {
+    ${code}
+  } catch (e){
+  ${logError ? "error(e.message, window.currentBlockId)" : ""}
+  }`;
+}
+
 function run(sections) {
   console.log("run", sections);
   clearCodeBlockHighlights();
   clearLogs();
-
-  let codeToRun = `
-try {
-`;
 
   const sectionsToRun = [...sections];
   sectionsToRun.sort((a, b) => {
@@ -36,16 +39,29 @@ try {
     else return 0;
   });
 
+  let codeBlocks = [];
+  let allCode = "";
   sectionsToRun.forEach((s) => {
     s.blocks.forEach((b) => {
-      codeToRun += formatCodeBlock(b);
+      const formattedCode = formatCodeBlock(b);
+      codeBlocks.push({ id: b.id, code: formattedCode });
+      allCode += formattedCode;
     });
   });
-  codeToRun += `} catch (e){
-error(e.message, window.currentBlockId)
-}`;
-  console.log("RUN", codeToRun);
-  eval(codeToRun);
+
+  let codeToRun = wrapInTry(allCode, true);
+
+  try {
+    eval(codeToRun);
+  } catch (e) {
+    codeBlocks.forEach((b) => {
+      try {
+        eval(wrapInTry(b.code, false));
+      } catch (e) {
+        error(e.message, b.id);
+      }
+    });
+  }
 }
 
 function stop() {
