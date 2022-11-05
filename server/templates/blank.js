@@ -9,11 +9,17 @@ module.exports = {
           code: `//enter code here`,
         },
         {
+          code: `//enter code here`,
+        },
+        {
+          code: `//enter code here`,
+        },
+        {
           hidden: true,
           code: `$("#stop-button").click();`,
         },
       ],
     },
   ],
-  theme: "space",
+  theme: "basic",
 };

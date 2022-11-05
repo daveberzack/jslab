@@ -190,7 +190,7 @@ const initUI = () => {
 async function init(ids) {
   $("#version-select").hide();
 
-  initData(ids);
+  await initData(ids);
   onStop();
   resize();
   initUI();
@@ -206,12 +206,12 @@ function resize() {
   $(".col").width((winW - 30) / 2);
   $(".code").height(winH - 70);
 
-  //$("#log").height(winH - 760);
-  // const ch = Math.min(winH - 280, winW / 2 - 40);
-  // $("#canvas").height(ch);
-  // $("#canvas").width(ch);
-  $("#view").hide();
-  $("#log").height(winH - 170);
+  $("#log").height(winH - 760);
+  const ch = Math.min(winH - 280, winW / 2 - 40);
+  $("#canvas").height(ch);
+  $("#canvas").width(ch);
+  // $("#view").hide();
+  // $("#log").height(winH - 170);
 }
 
 $(function () {

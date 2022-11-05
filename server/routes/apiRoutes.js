@@ -25,11 +25,13 @@ for (let i = 0; i < names.length; i++) {
   });
 }
 
-const template = require("../templates/functions");
+const template = require("../templates/blank");
+const theme = require("../themes/basic");
 
 module.exports = (app) => {
   app.get("/api/template", async (req, res) => {
-    res.status(200).send(template);
+    temp = { ...template, theme };
+    res.status(200).send(temp);
   });
 
   app.get("/api/versions/:students", async (req, res) => {

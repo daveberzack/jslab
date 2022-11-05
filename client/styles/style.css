@@ -269,6 +269,7 @@ a {
   background-color: blue;
   display: inline-block;
   border-radius: 5px;
+  position: relative;
 }
 
 #log p {

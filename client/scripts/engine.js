@@ -5,6 +5,8 @@ import {
   onStop,
 } from "./main.js";
 
+import { update } from "./display.js";
+
 let logs = [];
 
 var cleanup = function () {
@@ -28,7 +30,7 @@ function wrapInTry(code, logError) {
 }
 
 function run(sections) {
-  console.log("run", sections);
+  //console.log("run", sections);
   clearCodeBlockHighlights();
   clearLogs();
 

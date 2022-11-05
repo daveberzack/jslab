@@ -1,4 +1,7 @@
-deployment issue
+
+implement element required vars
+
+
 
 update challenge from teacher version
 add challenges
