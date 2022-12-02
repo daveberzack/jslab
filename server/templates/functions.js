@@ -35,5 +35,4 @@ let petName;`,
       ],
     },
   ],
-  theme: "space",
 };

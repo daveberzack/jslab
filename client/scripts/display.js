@@ -1,31 +1,54 @@
-import { template } from "./data.js";
+// import { template } from "./data.js";
 
-function update(data) {
+let allData = {};
+let canvasWidth = 100;
+let canvasHeight = 100;
+
+function addElement(data) {
+  updateElement(data);
+}
+
+function setBackground(filename) {
+  $("#canvas").css("background-image", "url(img/backgrounds/" + filename + ")");
+}
+
+function updateElement(data) {
+  if (!data.image) throw { message: "image is not defined" };
+  if (!data.id) throw { message: "id is not defined" };
+  allData[data.id] = data;
+  redrawElement(data);
+}
+
+function redrawElement(data) {
   const newElementHtml = formatElement(data);
-  $("#canvas #element-" + data.id).remove();
-  console.log(newElementHtml);
-  $("#canvas").append(newElementHtml);
+  if (newElementHtml) {
+    $("#canvas #element-" + data.id).remove();
+    $("#canvas").append(newElementHtml);
+  }
 }
 
 function formatElement(data) {
-  console.log("data", data);
-  console.log("theme", template.theme);
-  if (!data.type) throw { message: "type is not defined" };
-  if (!data.id) throw { message: "id is not defined" };
-  const type = template.theme.types[data.type];
-  console.log("type:", type);
+  if (!data || !data.id || !data.image) return null;
+  const w = (data.w * canvasWidth) / 100; //convert percent-based units to pixels
+  const x = (data.x * canvasWidth) / 100;
+  const h = (data.h * canvasHeight) / 100;
+  const y = (data.y * canvasHeight) / 100;
+  const r = data.r || 0;
 
-  const str = type.templateString.replace(/\[(.*?)\]/g, function (tag) {
-    console.log(tag);
-    const tagParts = tag.substr(1, tag.length - 2).split(":");
-    return data[tagParts[0]] || tagParts[1];
-  });
-
-  return str;
+  const output = `<img id="element-${data.id}" src="img/elements/${data.image}" class="element" style="width:${w}px; height:${h}px; top:${y}px; left:${x}px; transform:rotate(${r}deg);" />`;
+  return output;
 }
 
-function add(data) {
-  update(data);
+function redrawAllElements() {
+  for (const data in allData) {
+    redrawElement(data);
+  }
 }
 
-export { add, update };
+function resize(w, h) {
+  canvasWidth = w;
+  canvasHeight = h;
+  redrawAllElements();
+}
+
+export { addElement, updateElement, resize, setBackground };

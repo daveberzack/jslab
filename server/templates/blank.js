@@ -21,5 +21,5 @@ module.exports = {
       ],
     },
   ],
-  theme: "basic",
+  backgroundImage: "space.jpg",
 };

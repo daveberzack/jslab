@@ -1,5 +1,6 @@
 import { template, versions, initData, updateVersions } from "./data.js";
-import { run, stop, clearLogs } from "./engine.js";
+import { run, stop, logs, clearLogs } from "./engine.js";
+import { resize as resizeCanvas, setBackground } from "./display.js";
 
 const queryString = window.location.search;
 
@@ -32,7 +33,7 @@ function getSections() {
     let section = {};
     section.priority = $(this).attr("data-priority");
     section.blocks = [];
-    let $blocks = $(this).find("p");
+    let $blocks = $(this).find("pre");
     $blocks.each(function () {
       let newBlock = {
         id: $(this).attr("id"),
@@ -53,9 +54,7 @@ function onRun() {
   $("#run-button").hide();
   $("#stop-button").show();
   $("#results-tab").click();
-
   let sections = getSections();
-
   run(sections);
 }
 
@@ -65,15 +64,46 @@ function onStop() {
   stop();
 }
 
+function onRaiseHand() {
+  if (!isInstructor) $("#lower-hand-button").show();
+  $("#raise-hand-button").hide();
+  versions[currentVersionIndex].isHandRaised = true;
+}
+
+function onLowerHand() {
+  $("#lower-hand-button").hide();
+  if (!isInstructor) $("#raise-hand-button").show();
+  versions[currentVersionIndex].isHandRaised = false;
+}
+
 const addListeners = () => {
   $("#run-button").click(onRun);
   $("#stop-button").click(onStop);
+  $("#raise-hand-button").click(onRaiseHand);
+  $("#lower-hand-button").click(onLowerHand);
 };
+
+
+var tagsToReplace = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;'
+};
+function replaceTag(tag) {
+  return tagsToReplace[tag] || tag;
+}
+function htmlEscape(str) {
+  return str.replace(/[&<>]/g, replaceTag);
+}
 
 function updateCode() {
   let navHtml = "";
   let panesHtml = "";
   const version = versions[currentVersionIndex];
+
+  if (version.isHandRaised) onRaiseHand();
+  else onLowerHand();
+
   template.sections.forEach((section, i) => {
     if (!section.hidden) {
       navHtml += `<li><a href="#code-pane${i}">${section.title}</a></li>`;
@@ -91,15 +121,19 @@ function updateCode() {
 
       const id = `code-${i}-${j}`;
 
-      let attrs = `contenteditable="true" class="editable"`;
-      if (block.hidden) {
-        attrs = `class="hidden"`;
-      } else if (block.locked) {
-        attrs = `class="locked"`;
+      let attrs = `class="code-block"`;
+      if (block.locked) {
+        attrs = `class="code-block locked"`;
+      } else {
+        if (!isInstructor) attrs = `contenteditable="true" class="code-block editable"`;
+        else attrs = `class="code-block editable"`;
       }
-      paneHtml += `<p id="${id}" data-section="${i}" data-block="${j}" spellcheck="false" ${attrs}>${codeText}</p>`;
+
+      paneHtml += `<div id="${id}" data-section="${i}" data-block="${j}" spellcheck="false" ${attrs}>`;
+      paneHtml += `<pre>${htmlEscape(codeText)}</pre>`;
+      if (block.hidden) paneHtml += `<pre class="hidden-block">${htmlEscape(block.hidden)}</pre>`;
+      paneHtml += `</div>`;
     });
-    paneHtml += `</div>`;
 
     panesHtml += paneHtml;
   });
@@ -133,7 +167,17 @@ function updateVersionsList() {
   let versionsHtml = "";
   versions.forEach((version, i) => {
     const currentClass = currentVersionIndex == i ? 'class="current"' : "";
-    versionsHtml += `<li data-index="${i}" ${currentClass}>${version.name}</li>`;
+    const handRaisedHtml = version.isHandRaised ? " [!]" : "";
+    let assertionsHtml = "";
+    for (let i = 0; i < template.numberOfAssertions; i++) {
+      if (version.assertions[i] && version.assertions[i] > 0) {
+        assertionsHtml += "-";
+      } else {
+        assertionsHtml += "X";
+      }
+    }
+    const inactiveTimeHtml = " [" + version.secondsSinceLastChange + "]";
+    versionsHtml += `<li data-index="${i}" ${currentClass}>${version.name} [${assertionsHtml}]${inactiveTimeHtml}${handRaisedHtml}</li>`;
   });
   $("#versions-pane ul").html(versionsHtml);
 
@@ -150,13 +194,13 @@ function parseCode() {
   $(".code-pane").each(function (i) {
     let myBlocks = [];
     $(this)
-      .find("p")
+      .find("pre")
       .each(function (i) {
         let myCode = "";
         if ($(this).hasClass("editable")) myCode = $(this).text();
         myBlocks.push({ code: myCode });
       });
-
+      console.log("?",myBlocks);
     const section = { blocks: myBlocks };
     sections.push(section);
   });
@@ -185,6 +229,7 @@ const clearCodeBlockHighlights = () => {
 
 const initUI = () => {
   if (!isInstructor) $("#versions-link").hide();
+  onLowerHand();
 };
 
 async function init(ids) {
@@ -196,6 +241,7 @@ async function init(ids) {
   initUI();
 
   $(window).resize(resize);
+  setBackground(template.backgroundImage);
   addListeners();
 }
 
@@ -204,14 +250,13 @@ function resize() {
   const winH = $(window).height();
 
   $(".col").width((winW - 30) / 2);
-  $(".code").height(winH - 70);
+  $(".code-pane").height(winH - 120);
+  $("#log").height(winH - 670);
 
-  $("#log").height(winH - 760);
-  const ch = Math.min(winH - 280, winW / 2 - 40);
-  $("#canvas").height(ch);
-  $("#canvas").width(ch);
-  // $("#view").hide();
-  // $("#log").height(winH - 170);
+  const canvasHeight = Math.min(winH - 320, winW / 2 - 40);
+  $("#canvas").height(canvasHeight);
+  $("#canvas").width(canvasHeight);
+  resizeCanvas(canvasHeight, canvasHeight);
 }
 
 $(function () {
@@ -235,4 +280,5 @@ export {
   highlightCodeBlock,
   clearCodeBlockHighlights,
   onStop,
+  isInstructor,
 };

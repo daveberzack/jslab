@@ -1,36 +1,9 @@
 
-implement element required vars
+put hidden code inside of blocks (to get assertion to highlight that block)
+block dependent on assertions passed
 
 
-
-update challenge from teacher version
-add challenges
-
-post assertions passed
-last edited time
-help flag
-failed runs (passing a new assertion is not a fail)
-
-show passed assertions
-time since change
-help flag
-failed runs
-
-
-
-// "server": "cd server node server.js --ignore client",
-    // "install": "cd client && npm install",
-    // "client": "cd client && npm start"
-
-
-
-CSS: formatting/sizing content blocks
-icons
-
-add hint, solution. view them with button
-track hints revealed, solutions viewed
-
-make run do something to show that it's running and still errors
+style teacher edition metrics, button icons
 
 // assertions shown as a row of colored blocks, highlighted when passed. 
 // hint/solution as a colored dot below each.
@@ -38,38 +11,22 @@ make run do something to show that it's running and still errors
 // show an alert icon if inactive 
 // show number of failed runs
 
-store in database
+favicon, pwa, installable, etc
+
+
+
+
+
+db-based data
+add challenges
+update challenge from teacher version
+
+add instructions, hint, solution. view them with button
+track hints revealed, solutions viewed
+
+
 challenge editor
 
 
-
-
-
-
-
-load theme from BE
-update elements in dom based on theme
-
-
-
-
-
-
-
-##<>
-
-~spaceship
-<div class="spaceship" {~}>
-    <img src="spaceship.jpg"/>
-    <h2>{shipName}</h2>
-</div>
-
-~planet
-<div class="planet" {~}>
-    <img src="spaceship.jpg"/>
-    <h2>{shipName}</h2>
-</div>
-
-
-{varName} to inject value from object
-{~} to inject width, height, x and y, rotation, 
+...
+ measure failed runs? (passing a new assertion is not a fail)

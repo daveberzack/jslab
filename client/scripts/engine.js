@@ -3,9 +3,12 @@ import {
   highlightCodeBlock,
   clearCodeBlockHighlights,
   onStop,
+  currentVersionIndex,
 } from "./main.js";
 
-import { update } from "./display.js";
+import { versions, template } from "./data.js";
+
+import { updateElement, addElement } from "./display.js";
 
 let logs = [];
 
@@ -30,9 +33,11 @@ function wrapInTry(code, logError) {
 }
 
 function run(sections) {
-  //console.log("run", sections);
+  console.log("run", sections);
   clearCodeBlockHighlights();
   clearLogs();
+  const version = versions[currentVersionIndex];
+  version.assertions = [];
 
   const sectionsToRun = [...sections];
   sectionsToRun.sort((a, b) => {
@@ -44,12 +49,14 @@ function run(sections) {
   let codeBlocks = [];
   let allCode = "";
   sectionsToRun.forEach((s) => {
+    console.log(s.blocks);
     s.blocks.forEach((b) => {
       const formattedCode = formatCodeBlock(b);
       codeBlocks.push({ id: b.id, code: formattedCode });
       allCode += formattedCode;
     });
   });
+  
 
   let codeToRun = wrapInTry(allCode, true);
 
@@ -70,15 +77,13 @@ function stop() {
   cleanup();
 }
 
-function test(value, index, message) {
-  try {
-    if (value) {
-      console.log("test " + index + " passed");
-    } else {
-      console.log("test " + index + " failed ... " + message);
-    }
-  } catch (e) {
-    console.log("test " + index + " failed (catch) ... " + message);
+function assert(value, index, message) {
+  if (value) {
+    if (!versions[currentVersionIndex].assertions[index])
+      versions[currentVersionIndex].assertions[index] = 1;
+  } else {
+    error(message);
+    versions[currentVersionIndex].assertions[index] = -1;
   }
 }
 
@@ -102,4 +107,4 @@ window.onerror = function (e) {
   log("Syntax Error");
 };
 
-export { run, stop, clearLogs };
+export { run, stop, clearLogs, logs };
