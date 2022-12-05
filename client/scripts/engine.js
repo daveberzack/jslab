@@ -33,7 +33,7 @@ function wrapInTry(code, logError) {
 }
 
 function run(sections) {
-  console.log("run", sections);
+  //console.log("run", sections);
   clearCodeBlockHighlights();
   clearLogs();
   const version = versions[currentVersionIndex];
@@ -49,7 +49,6 @@ function run(sections) {
   let codeBlocks = [];
   let allCode = "";
   sectionsToRun.forEach((s) => {
-    console.log(s.blocks);
     s.blocks.forEach((b) => {
       const formattedCode = formatCodeBlock(b);
       codeBlocks.push({ id: b.id, code: formattedCode });
