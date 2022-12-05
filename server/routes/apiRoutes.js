@@ -1,4 +1,4 @@
-const dayjs = require("dayjs");
+const dayjs = require("../utils/day");
 
 let versions = [];
 
