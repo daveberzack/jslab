@@ -141,7 +141,8 @@ function updateCode() {
   $("#code-tabs .tab-nav").html(navHtml);
   $("#code-panes").html(panesHtml);
 
-  $(".code-pane p").keyup(function () {
+  $(".code-pane >div").keyup(function () {
+    //$('.code-pane pre').bind("DOMSubtreeModified",function(){
     const section = $(this).attr("data-section");
     const block = $(this).attr("data-block");
     let s = versions[currentVersionIndex].sections;
@@ -153,6 +154,7 @@ function updateCode() {
     }
 
     const sectionText = this.innerText;
+    console.log(sectionText,$(this));
     s[section].blocks[block].code = sectionText;
   });
 

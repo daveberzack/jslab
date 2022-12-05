@@ -33,10 +33,11 @@ async function updateVersions() {
 
 async function saveVersion() {
   const bodyData = JSON.stringify(versions[currentVersionIndex]);
+  console.log("save:", bodyData);
+
   if (bodyData == lastSavedVersion) return;
 
   lastSavedVersion = bodyData;
-  //console.log("save:", bodyData);
   const response = await fetch("/api/version/", {
     method: "POST",
     mode: "cors",
