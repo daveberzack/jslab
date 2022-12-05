@@ -47,7 +47,7 @@ module.exports = (app) => {
       const lastChange = dayjs(v.editedTime);
       v.secondsSinceLastChange = Math.round(now.diff(lastChange) / 1000);
     });
-    console.log("get versions", versionsToSend[0]);
+    //console.log("get versions", versionsToSend[0]);
     res.status(200).send(versionsToSend);
   });
 
